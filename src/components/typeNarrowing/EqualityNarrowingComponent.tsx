@@ -1,50 +1,49 @@
 type ImageItem = {
-    id: number;
-    title: string;
-    imageUrl: string;
-    type: 'imageItem';
-  };
-  
-  type QuoteItem = {
-    id: number;
-    quote: string;
-    type: 'quoteItem';
-  };
-  
-  export type ItemEquality = ImageItem | QuoteItem;
-  
-  type ComponentProps = {
-    items: ItemEquality[];
-  }
-  
-  export default function EqualityNarrowingComponent({
-    items,
-  }: ComponentProps) {
-    return (
-      <ul>
-        {items.map((item) => {
-          
-          if (item.type === "imageItem")
-            return (
-              <li key={item.id}>
-                {item.title && <p>{item.title}</p>}
-                {item.imageUrl && (
-                  <img
-                    style={{ maxWidth: "15rem" }}
-                    src={item.imageUrl}
-                    alt={item.title}
-                  />
-                )}
-              </li>
-            );
-  
+  id: number;
+  title: string;
+  imageUrl: string;
+  type: "imageItem";
+};
+
+type QuoteItem = {
+  id: number;
+  quote: string;
+  type: "quoteItem";
+};
+
+// the "type" property will depend on the backend if the data is from the database
+// "type" property is considered as a unique identifier
+
+export type ItemEquality = ImageItem | QuoteItem;
+
+type ComponentProps = {
+  items: ItemEquality[];
+};
+
+export default function EqualityNarrowingComponent({ items }: ComponentProps) {
+  return (
+    <ul>
+      {items.map((item) => {
+        if (item.type === "imageItem")
           return (
             <li key={item.id}>
-              {item.quote && <p style={{ fontStyle: "italic" }}>{item.quote}</p>}
+              {item.title && <p>{item.title}</p>}
+              {item.imageUrl && (
+                <img
+                  style={{ maxWidth: "15rem" }}
+                  src={item.imageUrl}
+                  alt={item.title}
+                />
+              )}
             </li>
           );
-        })}
-      </ul>
-    );
-  }
-  
+
+        return (
+          <li key={item.id}>
+            {item.quote && <p style={{ fontStyle: "italic" }}>{item.quote}</p>}
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
